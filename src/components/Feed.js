@@ -9,16 +9,14 @@
 import React, {Component} from 'react';
 import {Platform, 
         StyleSheet, 
-        Text, 
         View,
         Dimensions,
-        Image,
-        ScrollView,
         FlatList,
         ImageBackground 
 } from 'react-native';
 //import { RNCamera } from 'react-native-camera';
-import Post from './src/components/Post'
+import Post from './Post'
+
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -30,38 +28,44 @@ const instructions = Platform.select({
 type Props = {};
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
-export default class App extends Component<Props> {
+export default class Feed extends Component<Props> {
   constructor(){
     super();
     this.state = {
-        fotos: []
+        fotos: [],
+        teste: ''
     }
   } 
 
   componentDidMount(){
     fetch('https://instalura-api.herokuapp.com/api/public/fotos/rafael')
-      .then(resposta => resposta.json())
-      .then(json => this.setState({fotos: json}))
+      .then(resposta => 
+        resposta.json()
+        //console.log(JSON.stringify(resposta));
+      )
+      .then(json => this.setState({fotos: json, teste: json}))
+      
   }
 
   render() { 
     return (
-      <View>
-        <ImageBackground source={require('./resources/superar.jpg')} style={{width: '100%', height: '100%'}}>
+      <View style={styles.container}>        
+          <ImageBackground source={require('../../resources/superar.jpg')} style={styles.header}>
+          </ImageBackground>
           <FlatList style={styles.container} data = {this.state.fotos} keyExtractor={item=>item.id+''} renderItem= {({item})=>
-            <Post  foto={item}/>                    
-          }/> 
-          <View style={styles.footer}>          
-          </View>                 
-        </ImageBackground>
+            <Post foto={item}/>                                
+          }/>                                  
       </View>
     );
   }
 }
 
 const styles=StyleSheet.create({
+  header: {width: width, height: 5*height/100},
   container: {
-    marginTop: 150
+    height: height,
+    width: width, 
+    marginBottom: 50,   
   },  
   footer: {
     //position: 'absolute',

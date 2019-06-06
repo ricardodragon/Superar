@@ -8,15 +8,13 @@
 
 import React, {Component} from 'react';
 import {Platform, 
-        StyleSheet, 
-        Text, 
+        StyleSheet,  
         View,
-        Dimensions,
-        Image,
-        ScrollView,
-        FlatList,
-        TouchableOpacity
+        Dimensions,                   
 } from 'react-native';
+import CabecalhoPost from '../components/CabecalhoPost'
+import PostContainer from './PostContainer';
+import RodapePost from '../components/RodapePost'
 
 
 type Props = {};
@@ -27,6 +25,7 @@ export default class Post extends Component<Props> {
         super(props);
         this.state = {
             foto: this.props.foto,            
+            comentarios: [{texto: 'Esse dia foi louco memo mlk!',id:0}]
         }
     }
     like(){
@@ -36,25 +35,22 @@ export default class Post extends Component<Props> {
         }
         this.setState({foto: fotoAtualizada})        
     }
+
+    adicionaComentario(valorComentario, inputComentario){
+        //console.warn(this.state.valorComentario);    
+        if(valorComentario === '') return;
+        const novaLista = this.state.comentarios;
+        this.setState({comentarios: novaLista.concat([{texto: valorComentario, id:1}])});
+        inputComentario.clear();
+    }
+
     render() { 
-        const { foto } = this.state;   
+        const { foto, comentarios } = this.state;
         return (      
-            <View>
-                <View style={styles.cabecalho}>
-                    <Image source={{uri: foto.urlPerfil}} style={styles.fotoPerfil}/>
-                    <Text style={{color: 'white'}}>
-                        <Text style={styles.nomePerfeil}>{foto.loginUsuario}</Text>                    
-                    </Text>
-                </View>
-                <Image source={{uri: foto.urlFoto}} style={[styles.foto]}/>        
-                <View style={styles.rodape}>
-                    <TouchableOpacity onPress={this.like.bind(this)}>
-                        <Image source={foto.likeada?require('../../resources/s2-checked.png'):require('../../resources/s2.png')} style={styles.botaoLike}/>                     
-                    </TouchableOpacity>                    
-                    <Text style={styles.texto}>{'2'+' Curtidas'}</Text>      
-                    <Text style={{color: 'white'}}><Text style={{color: 'orange', fontWeight: 'bold'}}>{foto.loginUsuario} : </Text>Esse dia foi louco!</Text>              
-                    <Text style={{color: 'white'}}>Comentários...</Text>
-                </View>
+            <View style={styles.container}>
+                <CabecalhoPost foto={foto}/>
+                <PostContainer foto={foto} like={this.like.bind(this)}/>
+                <RodapePost comentarioCallBack={this.adicionaComentario.bind(this)} foto={foto} comentarios={comentarios} like={this.like.bind(this)}/>
             </View>                      
         );
     }
@@ -63,38 +59,9 @@ export default class Post extends Component<Props> {
 const styles=StyleSheet.create({
     
     container: {
-        marginTop: 20
+        //marginTop: 20
+        marginBottom: 13
     },
-    botaoLike: {
-        height: 40,
-        width: 40
-    },
-    rodape: {
-        margin: 10
-    },
-    cabecalho: {
-        margin: 10, 
-        flexDirection: 'row', 
-        alignItems: 'center'
-    },
-    fotoPerfil:{
-        borderRadius: 20, 
-        width: 40, 
-        height: 40,
-        marginRight: 10
-    },
-    foto: {
-        width: width-50, 
-        height: width,
-        flexDirection: 'column', 
-        alignItems: 'center', 
-        marginLeft: 28   
-    },
-    texto: {
-        color: 'white'
-    },
-    nomePerfeil: {
-        color: 'white',        
-        fontWeight: 'bold'
-    },    
+    
+              
 })

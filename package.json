@@ -4,12 +4,15 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "android": "cd ./android && ./gradlew app:assembleDebug && ./gradlew installDebug"
   },
   "dependencies": {
     "react": "16.8.3",
     "react-native": "0.59.8",
-    "react-native-camera": "^2.9.0"
+    "react-native-camera": "^2.9.0",
+    "react-native-navigation": "^2.21.0",
+    "react-native-permissions": "^1.1.1"
   },
   "devDependencies": {
     "@babel/core": "7.4.4",
