@@ -18,7 +18,8 @@ import {Platform,
         TouchableOpacity,
         Dimensions,
         View,
-        Text              
+        Text,
+        AsyncStorage              
 } from 'react-native';
 import InputComentario from '../components/InputComentario'
 
@@ -26,8 +27,20 @@ type Props = {};
 const width = Dimensions.get('screen').width;
 export default class RodapePost extends Component<Props> {
 
+    constructor(){
+        super();
+        this.state={
+            usuario: ''
+        }
+    }
+
     comentarioPost(valorComentario, inputComentario){        
         this.props.comentarioCallBack(valorComentario, inputComentario)
+    }
+    componentWillMount(){
+        AsyncStorage.getItem('usuario').then(usuario=> {
+            this.setState({usuario: usuario})
+        })
     }
     render(){          
         const { comentarios, foto } = this.props;         
@@ -42,7 +55,7 @@ export default class RodapePost extends Component<Props> {
                 </Text>              
                 {comentarios.map(comentario=>
                     <View style={styles.comentario} key={comentario.id}>  
-                        <Text style={{fontWeight: 'bold'}}>ricardibre:</Text>
+                        <Text style={{fontWeight: 'bold'}}>{this.state.usuario}</Text>
                         <Text> {comentario.texto}</Text>
                     </View>
                 )}

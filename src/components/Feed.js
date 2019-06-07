@@ -7,16 +7,18 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, 
-        StyleSheet, 
+import {Platform,     
         View,
-        Dimensions,
-        FlatList,
-        ImageBackground 
-} from 'react-native';
-//import { RNCamera } from 'react-native-camera';
-import Post from './Post'
+        Dimensions,        
+        ImageBackground, 
+        StyleSheet,
+        FlatList
 
+} from 'react-native';
+
+import Icon from "react-native-vector-icons/Ionicons";
+import Post from './Post'
+import { Navigation } from "react-native-navigation";
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -31,7 +33,7 @@ const height = Dimensions.get('screen').height;
 export default class Feed extends Component<Props> {
   constructor(){
     super();
-    this.state = {
+    this.state = {        
         fotos: [],
         teste: ''
     }
@@ -39,18 +41,35 @@ export default class Feed extends Component<Props> {
 
   componentDidMount(){
     fetch('https://instalura-api.herokuapp.com/api/public/fotos/rafael')
-      .then(resposta => 
-        resposta.json()
-        //console.log(JSON.stringify(resposta));
-      )
-      .then(json => this.setState({fotos: json, teste: json}))
+        .then(resposta => 
+            resposta.json()
+            //console.log(JSON.stringify(resposta));
+        )
+        .then(json =>{            
+            this.setState({fotos: json})   
+        })
       
+  }
+
+  goFoto(){
+     
+    Navigation.push(this.props.componentId, {
+        component: {
+            name: 'foto',            
+            options: {
+                topBar: {
+                    height: 0                
+                }
+            }
+        }
+    }); 
   }
 
   render() { 
     return (
       <View style={styles.container}>        
           <ImageBackground source={require('../../resources/superar.jpg')} style={styles.header}>
+                <Icon name="md-camera" color="white" size={55} onPress={this.goFoto.bind(this)}/>
           </ImageBackground>
           <FlatList style={styles.container} data = {this.state.fotos} keyExtractor={item=>item.id+''} renderItem= {({item})=>
             <Post foto={item}/>                                
@@ -61,7 +80,7 @@ export default class Feed extends Component<Props> {
 }
 
 const styles=StyleSheet.create({
-  header: {width: width, height: 5*height/100},
+  header: {width: width, height: 8*height/100, paddingLeft:5},
   container: {
     height: height,
     width: width, 
