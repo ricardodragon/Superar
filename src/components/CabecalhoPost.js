@@ -18,21 +18,7 @@ import {Platform,
 type Props = {};
 export default class CabecalhoPost extends Component<Props> {
 
-// Navigation.push(this.props.componentId, {
-//     component: {
-//       name: 'feed',
-//       passProps: {
-//         text: 'feed'
-//       },
-//       options: {
-//         topBar: {
-//           title: {
-//             text: 'feed'
-//           }
-//         }
-//       }
-//     }
-// });
+
 
     render(){
         const { foto } = this.props;   
