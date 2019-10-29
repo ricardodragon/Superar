@@ -13,7 +13,19 @@ import {Platform,
 } from 'react-native';
 import { Navigation } from "react-native-navigation";
 import Icon from "react-native-vector-icons/Ionicons";
+// <?xml version="1.0" encoding="utf-8"?>
+// <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
+//     <item
+//         android:drawable="@color/blue"/>
+
+//     <item
+//         android:width="200dp"
+//         android:height="200dp"
+//         android:drawable="@mipmap/splash"
+//         android:gravity="center" />
+
+// </layer-list>
 //import AsyncStorage from 
 type Props = {};
 const width = Dimensions.get('screen').width;
